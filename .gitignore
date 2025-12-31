@@ -1,0 +1,51 @@
+# Build results
+[Dd]ebug/
+[Rr]elease/
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Environment variables - IMPORTANT!
+.env
+.env.development
+.env.production
+.env.local
+.env.*.local
+
+# Keep example file
+!.env.example
+
+# Configuration with secrets
+appsettings.Development.json
+appsettings.Production.json
+appsettings.Local.json
+
+# Keep base config
+!appsettings.json
+
+# Logs
+logs/
+*.log
+
+# Database files
+*.mdf
+*.ldf
+*.db
+
+# Uploads folder
+Uploads/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Rider
+.idea/
