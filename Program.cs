@@ -86,17 +86,27 @@ builder.Services.AddAuthorization();
 // ========================================
 // DEPENDENCY INJECTION - DATABASE HELPER
 // ========================================
+// ========================================
+// DEPENDENCY INJECTION - DATABASE HELPER
+// ========================================
 var dbServer = Environment.GetEnvironmentVariable("DB_SERVER")
     ?? throw new InvalidOperationException("DB_SERVER not set");
 
 var dbName = Environment.GetEnvironmentVariable("DB_NAME")
     ?? throw new InvalidOperationException("DB_NAME not set");
 
+var dbUser = Environment.GetEnvironmentVariable("DB_USER")
+    ?? throw new InvalidOperationException("DB_USER not set");
+
+var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD")
+    ?? throw new InvalidOperationException("DB_PASSWORD not set");
+
 var connectionString =
     $"Server={dbServer};" +
     $"Database={dbName};" +
-    $"Trusted_Connection=True;" +
-    $"Encrypt=False;" +
+    $"User Id={dbUser};" +
+    $"Password={dbPassword};" +
+    $"Encrypt=True;" +
     $"TrustServerCertificate=True;" +
     $"MultipleActiveResultSets=True;" +
     $"Connection Timeout=30;";
