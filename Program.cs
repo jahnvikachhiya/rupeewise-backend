@@ -270,7 +270,9 @@ app.MapGet("/health", () => Results.Ok(new
 
 }));
 
-
+// Get the port from environment variable (Render assigns it)
+var port = Environment.GetEnvironmentVariable("PORT") ?? "10000"; 
+app.Urls.Add($"http://0.0.0.0:{port}");
 // ========================================
 // RUN APPLICATION
 // ========================================
