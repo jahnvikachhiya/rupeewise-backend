@@ -249,11 +249,10 @@ namespace ExpenseManagementAPI.Services
                     return (false, "This is not a system category");
                 }
 
-                // Check if category has expenses
-                if (await _categoryRepository.CategoryHasExpensesAsync(categoryId))
-                {
-                    return (false, "Cannot delete category with existing expenses");
-                }
+               if (await _categoryRepository.CategoryHasBudgetsAsync(categoryId))
+                    {
+                        return (false, "Cannot delete category because it is used in budgets");
+                    }
 
                 bool deleted = await _categoryRepository.DeleteSystemCategoryAsync(categoryId);
 

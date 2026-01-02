@@ -273,5 +273,21 @@ namespace ExpenseManagementAPI.Repositories
                         return categories;
                     });
                 }
+
+                /// <summary>
+/// Check if category is used in budgets
+/// </summary>
+public async Task<bool> CategoryHasBudgetsAsync(int categoryId)
+{
+    var parameters = new Dictionary<string, object>
+    {
+        { "@CategoryId", categoryId }
+    };
+
+    return await Task.Run(() =>
+        _dbHelper.RecordExists(SqlQueryHelper.CheckCategoryHasBudgets, parameters)
+    );
+}
+
     }
 }

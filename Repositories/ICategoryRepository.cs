@@ -42,5 +42,8 @@ namespace ExpenseManagementAPI.Repositories
         Task<List<Category>> GetSystemCategoriesAsync();
 
          Task<List<Category>> GetAllCategoriesAsync();
+
+         Task<bool> CategoryHasBudgetsAsync(int categoryId);
+
     }
 }

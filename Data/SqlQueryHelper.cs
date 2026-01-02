@@ -390,6 +390,14 @@ namespace ExpenseManagementAPI.Data
         FROM Categories c
         LEFT JOIN Users u ON c.UserId = u.UserId
         ORDER BY c.IsSystemCategory DESC, c.CategoryName ASC";
+
+     public static readonly string CheckCategoryHasBudgets = @"
+    SELECT 1 
+    FROM Budgets 
+    WHERE CategoryId = @CategoryId
+";
+
+
     }
 }
 
