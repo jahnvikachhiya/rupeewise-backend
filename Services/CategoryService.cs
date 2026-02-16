@@ -250,9 +250,9 @@ namespace ExpenseManagementAPI.Services
                 }
 
                if (await _categoryRepository.CategoryHasBudgetsAsync(categoryId))
-                    {
-                        return (false, "Cannot delete category because it is used in budgets");
-                    }
+                {
+                    return (false, "Cannot delete category because it is used in budgets");
+                }
 
                 bool deleted = await _categoryRepository.DeleteSystemCategoryAsync(categoryId);
 
