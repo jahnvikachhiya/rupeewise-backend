@@ -192,44 +192,49 @@ namespace ExpenseManagementAPI.Services
         /// <summary>
         /// DELETE /api/categories/custom/{categoryId} - Delete custom category
         /// </summary>
-        public async Task<(bool success, string message)> DeleteCustomCategoryAsync(int categoryId, int userId)
+      public async Task<(bool success, string message)> DeleteCustomCategoryAsync(int categoryId, int userId)
+{
+    try
+    {
+        var category = await _categoryRepository.GetCategoryByIdAsync(categoryId);
+
+        if (category == null)
         {
-            try
-            {
-                var category = await _categoryRepository.GetCategoryByIdAsync(categoryId);
-
-                if (category == null)
-                {
-                    return (false, "Category not found");
-                }
-
-                // Check if it's a custom category and belongs to the user
-                if (category.IsSystemCategory || category.UserId != userId)
-                {
-                    return (false, "You don't have permission to delete this category");
-                }
-
-                // Check if category has expenses
-                if (await _categoryRepository.CategoryHasExpensesAsync(categoryId))
-                {
-                    return (false, "Cannot delete category with existing expenses");
-                }
-
-                bool deleted = await _categoryRepository.DeleteCustomCategoryAsync(categoryId);
-
-                if (deleted)
-                {
-                    return (true, "Custom category deleted successfully");
-                }
-
-                return (false, "Failed to delete custom category");
-            }
-            catch (Exception ex)
-            {
-                return (false, $"Error: {ex.Message}");
-            }
+            return (false, "Category not found");
         }
 
+        // Check if it's a custom category and belongs to the user
+        if (category.IsSystemCategory || category.UserId != userId)
+        {
+            return (false, "You don't have permission to delete this category");
+        }
+
+        // Check if category has expenses
+        if (await _categoryRepository.CategoryHasExpensesAsync(categoryId))
+        {
+            return (false, "Cannot delete category with existing expenses");
+        }
+
+        // ✅ ADD THIS - Check if category is used in any budgets
+        if (await _categoryRepository.CategoryHasBudgetsAsync(categoryId))
+        {
+            return (false, "Cannot delete category because it is used in budgets");
+        }
+
+        bool deleted = await _categoryRepository.DeleteCustomCategoryAsync(categoryId);
+
+        if (deleted)
+        {
+            return (true, "Custom category deleted successfully");
+        }
+
+        return (false, "Failed to delete custom category");
+    }
+    catch (Exception ex)
+    {
+        return (false, $"Error: {ex.Message}");
+    }
+}
         /// <summary>
         /// DELETE /api/categories/system/{categoryId} - Delete system category (Admin only)
         /// </summary>
